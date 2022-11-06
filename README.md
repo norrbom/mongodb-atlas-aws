@@ -6,7 +6,7 @@ Cluster resources are however managed outside the module, since there is little 
 ## Examples
 - [atlas-privatelink](examples/atlas-privatelink): How to set up a one-way VPC Endpoint connection aka. Private Link to Atlas. The example shows how to use IAM roles for service accounts in EKS for passwordless authentication.
 
-# Build and test and release
+# Build, test and release
 Development is driven through the the examples. Stable versions of the module are consumed from main branch, git tags are used for versioning.
 
 ## Prerequisites
