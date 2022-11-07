@@ -1,14 +1,17 @@
 # How to connect to the Atlas cluster from a Pod in EKS
 
 ## Preparations
-* Use the example terraform code to provision a cluster, a private link connection from a EKS cluster and a user using *irsa_users_global_readonly* variable.
+Use the example terraform code to provision a cluster, a private link connection from a EKS cluster and a user using the *irsa_users_readonly* variable.
 ### User and Kubernetes Pod settings
-Set AWS account ID, IAM role arn, namespace and service account variables
+Set AWS account ID, IAM role arn
 ```bash
 export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
 export ATLAS_IAM_ROLE_ARN=$(terraform output -json mongodbatlas_database_users | jq -r '.[].username | select(test("MongoDBAtlas-irsa_read-"))')
-export CLIENT_NAMESPACE=<CLIENT_NAMESPACE> # needs to match the irsa_users_global_readonly namespace value in the terraform code
-export SERVICE_ACCOUNT=<SERVICE_ACCOUNT>   # needs to match the irsa_users_global_readonly service_account value in the terraform code
+```
+Set namespace and service account variables, they need to match the irsa_users_readonly values
+```bash
+export CLIENT_NAMESPACE=jupyterhub
+export SERVICE_ACCOUNT=jupyter-atlas
 ```
 ### Store the Atlas connection string in a file that will be baked into the mongoclient Docker image
 ```bash
