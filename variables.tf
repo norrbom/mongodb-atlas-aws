@@ -35,31 +35,27 @@ variable "private_link_region" {
   type        = string
   description = "The cloud provider region in which you want to create the private endpoint connection"
 }
-variable "irsa_users_readonly" {
-  type = map(object({
-    namespace       = string # Kubernetes Service Account namespace
-    service_account = string # Kubernetes Serice Account name
-    eks_oidc_id     = string # OIDC ID of the EKS Cluster to create Assume Role Policy
-    scopes = object({        # Scope the access to a cluster or data lake
-      name = string
-      type = string
-    })
-  }))
-  default     = {}
-  description = "Creates read only users and EKS service accounts, limited to a scope, i.e. LAKE or CLUSTER in the Atlas project. Pods in a EKS cluster can assume the role via the sevice account."
+variable "teams" {
+  type = set(object({
+    team_id    = string
+    role_names = list(string)
+    }
+  ))
+  description = "Linking existing teams to the project"
 }
-variable "irsa_users_readwrite" {
+variable "irsa_anydb_users" {
   type = map(object({
     namespace       = string # Kubernetes Service Account namespace
     service_account = string # Kubernetes Serice Account name
     eks_oidc_id     = string # OIDC ID of the EKS Cluster to create Assume Role Policy
-    scopes = object({        # Scope the access to a cluster or data lake
+    role_name       = string # Privileges assigned to the database user, admin database accepts: atlasAdmin, readWriteAnyDatabase, readAnyDatabase, clusterMonitor, backup, dbAdminAnyDatabase
+    scopes = set(object({    # Scopes the access to cluster and data lakes
       name = string
       type = string
-    })
+    }))
   }))
   default     = {}
-  description = "Creates users with read and write access and EKS service accounts, limited to a scope, i.e. LAKE or CLUSTER in the Atlas project. Pods in a EKS cluster can assume the role via the sevice account."
+  description = "Creates IAM roles and systems user with with access to any database. Pods in a EKS cluster can assume the role via a sevice account, that has to be created separately"
 }
 variable "aws_vpc_id" {
   type        = string

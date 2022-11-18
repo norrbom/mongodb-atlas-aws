@@ -29,26 +29,22 @@ module "atlas" {
   aws_subnet_ids         = local.aws_subnet_ids
   aws_security_group_ids = local.aws_security_group_ids
 
-  irsa_users_readonly = {
-    "jupyter" = {
-      namespace       = "jupyterhub"
-      service_account = "jupyter-atlas"
-      eks_oidc_id     = local.eks_oidc_id
-      scopes = {
-        name = local.cluster_name
-        type = "CLUSTER"
-      }
-    }
-  }
-  irsa_users_readwrite = {
+  # linking existing teams to the project, teams are create on organisation level
+  teams = []
+
+  # create a system user with read write access to any database i the cluster
+  irsa_anydb_users = {
     "strimzi-atlas-connect" = {
       namespace       = "rtd"
       service_account = "strimzi-atlas-connect"
       eks_oidc_id     = local.eks_oidc_id
-      scopes = {
-        name = local.cluster_name
-        type = "CLUSTER"
-      }
+      role_name       = "readWriteAnyDatabase"
+      scopes = [
+        {
+          name = local.cluster_name
+          type = "CLUSTER"
+        }
+      ]
     }
   }
 }

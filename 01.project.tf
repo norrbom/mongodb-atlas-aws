@@ -7,8 +7,15 @@ resource "mongodbatlas_project" "this" {
   is_performance_advisor_enabled                   = true
   is_realtime_performance_panel_enabled            = true
   is_schema_advisor_enabled                        = true
-}
 
+  dynamic "teams" {
+    for_each = var.teams
+    content {
+      team_id    = teams.value.team_id
+      role_names = teams.value.role_names
+    }
+  }
+}
 
 resource "mongodbatlas_auditing" "default" {
   project_id                  = mongodbatlas_project.this.id
