@@ -1,9 +1,9 @@
 **/.terraform/*
 *.tfstate
 *.tfstate.backup
-*/**/env.sh
 .idea
-scripts/eks-tunnel/*
-!scripts/eks-tunnel/connect.sh
 */**/.secrets
 */**/atlas-connection-string.txt
+*/**/cluster.yaml
+*/**/.terraform.lock.hcl
+*/**/test.tfvars

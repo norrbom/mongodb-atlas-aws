@@ -5,11 +5,4 @@ terraform {
     dynamodb_table = "terraform-backend-atlas-poc"
     key            = "atlas-poc.tfstate"
   }
-  required_providers {
-    aws = {}
-    mongodbatlas = {
-      source  = "mongodb/mongodbatlas"
-      version = "1.4.6"
-    }
-  }
 }

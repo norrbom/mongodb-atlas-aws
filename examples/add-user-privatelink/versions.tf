@@ -1,11 +1,11 @@
 terraform {
   required_providers {
-    aws = {}
+    aws = {
+      version = "4.40.0"
+    }
     mongodbatlas = {
       source  = "mongodb/mongodbatlas"
-      version = "1.4.6"
+      version = "1.6.0"
     }
   }
 }
-
-data "aws_caller_identity" "current" {}

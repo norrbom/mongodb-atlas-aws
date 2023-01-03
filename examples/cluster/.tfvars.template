@@ -1,0 +1,60 @@
+## Atlas global settings
+atlas_cloud_region   = "EU_NORTH_1"
+atlas_cloud_provider = "AWS"
+
+## Atlas Project settings
+atlas_project_enabled = true
+atlas_org_id          = "<ORG_ID>"
+atlas_owner           = "test-team"
+atlas_project_name    = "TEST"
+# linking existing teams to the project, teams are create on organisation level
+atlas_teams = []
+atlas_auditing_enabled = false
+
+## Atlas IAM users settings
+# system users with access to any database i the cluster
+eks_oidc_id     = "<eks_oidc_id>"
+atlas_irsa_anydb_users = {
+  "dev-test-client" = {
+    namespace       = "test"
+    service_account = "test-client"
+    role_name       = "readAnyDatabase"
+    scopes = [
+      {
+        name = "test"
+        type = "CLUSTER"
+      }
+    ]
+  }
+}
+
+## Atlas Private Links settings
+atlas_private_links = {
+  "EU_NORTH_1" = {
+    atlas_private_link_id = null # There is NOT an existing link, created outside this codebase that can be reused
+    private_link_region   = "EU_NORTH_1"
+    link_endpoints = {
+      "dev-test" = {
+        aws_vpc_id             = "<aws_vpc_id>"
+        aws_subnet_ids         = <aws_subnet_ids>
+        aws_security_group_ids = ["<aws_security_group_ids>"]
+      }
+    }
+  }
+}
+
+## Atlas Cluster settings
+atlas_clusters = {
+  "rtd-dev" = {
+    atlas_cluster_paused               = false
+    atlas_cluster_name                 = "test"
+    atlas_mongo_db_major_version       = "6.0"
+    atlas_backup_enabled               = true
+    atlas_pit_enabled                  = true
+    atlas_bi_connector_enabled         = false
+    atlas_minimum_enabled_tls_protocol = "TLS1_2"
+    atlas_instance_size                = "M10"
+    atlas_node_count                   = 3
+    atlas_compute_max_instance_size    = "M30"
+  }
+}
